@@ -17,6 +17,7 @@ export default function NavBar({ darkMode, onToggleTheme }) {
         <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/" end onClick={closeMenu}>Home</NavLink>
         <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/projects" onClick={closeMenu}>Projects</NavLink>
         <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/contact" onClick={closeMenu}>Contact</NavLink>
+        <NavLink className={({ isActive }) => isActive ? 'active' : ''} to="/tasks" onClick={closeMenu}>Tasks</NavLink>
       </div>
       <div className="nav-tools">
         <button className="theme-toggle" type="button" onClick={onToggleTheme} aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'} aria-pressed={darkMode}>

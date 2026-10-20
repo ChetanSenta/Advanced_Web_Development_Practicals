@@ -46,6 +46,19 @@ repositories are displayed as responsive cards with:
 - `src/components/Skills.jsx` — dynamically renders skill groups from props.
 - `src/components/Projects.jsx` — dynamically renders project cards from props.
 - `src/components/Footer.jsx` — contact and copyright information.
+- `src/api.js` — authenticated task API client for the Practical 6 backend.
+- `src/pages/TaskManager.jsx` — login, registration, and MongoDB-backed task CRUD UI.
+
+## Practical 6 additions
+
+The `/tasks` route connects the React application to the Node and MongoDB task
+backend from Practicals 4 and 5. It supports registration, login, task
+creation, completion toggling, deletion, loading states, and API error states.
+
+Set `VITE_API_URL` when the backend is not running at `http://localhost:5000`.
+The frontend expects `/register`, `/login`, and authenticated `/tasks`
+endpoints. Authentication tokens are stored locally under
+`task-manager-token`.
 
 Resume details used in the page are based on Chetan Senta's resume.
 

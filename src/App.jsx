@@ -7,6 +7,7 @@ import Projects from './components/Projects'
 import Contact from './pages/Contact'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
+import TaskManager from './pages/TaskManager'
 import { projects } from './data/portfolio'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects projectList={projects} />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/tasks" element={<TaskManager />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
