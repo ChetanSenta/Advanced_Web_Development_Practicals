@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Info, LoaderCircle, Sparkles } from 'lucide-react'
 import {
   createTask,
   deleteTask,
+  generateTaskDescription,
   getTasks,
   isAuthenticated,
   login,
@@ -9,6 +11,9 @@ import {
   register,
   updateTask,
 } from '../api'
+
+const buildDescription = (title) =>
+  `Break down "${title.slice(0, 90)}" into clear steps, complete the work, and verify the result before marking it done.`.slice(0, 300)
 
 export default function TaskManager() {
   const [tasks, setTasks] = useState([])
@@ -21,6 +26,8 @@ export default function TaskManager() {
   const [busyTaskId, setBusyTaskId] = useState(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [generating, setGenerating] = useState(false)
+  const [aiNote, setAiNote] = useState('')
 
   useEffect(() => {
     if (!authenticated) return undefined
@@ -75,6 +82,26 @@ export default function TaskManager() {
     }
   }
 
+  const handleGenerateDescription = async () => {
+    const title = form.title.trim()
+    if (!title || generating) return
+    setGenerating(true)
+    setAiNote('')
+    setError('')
+    try {
+      const result = await generateTaskDescription(title)
+      const description = String(result.description || '').trim().slice(0, 300)
+      if (!description) throw new Error('The AI returned an empty description. Please write one yourself.')
+      setForm((currentForm) => ({ ...currentForm, description }))
+    } catch (aiError) {
+      setForm((currentForm) => ({ ...currentForm, description: buildDescription(title) }))
+      setAiNote('AI is unavailable, so a local suggestion was added. You can edit it before saving.')
+      setError(aiError instanceof Error ? aiError.message : 'Unable to generate a task description.')
+    } finally {
+      setGenerating(false)
+    }
+  }
+
   const handleToggle = async (task) => {
     setBusyTaskId(task._id)
     setError('')
@@ -121,7 +148,20 @@ export default function TaskManager() {
           {authenticated ? (
             <form className="task-form" onSubmit={handleTaskSubmit}>
               <label htmlFor="task-title">Title<input id="task-title" required value={form.title} onChange={(event) => setForm({ ...form, title: event.target.value })} /></label>
-              <label htmlFor="task-description">Description<textarea id="task-description" rows="4" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
+              <div className="description-row">
+                <label htmlFor="task-description">Description</label>
+                <div className="description-box">
+                  <textarea id="task-description" maxLength="300" placeholder="Add details, or let AI suggest steps…" rows="3" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} />
+                  <div className="description-meta">
+                    <span className="description-count" aria-live="polite">{form.description.length} / 300</span>
+                    <button className="ai-button" type="button" onClick={handleGenerateDescription} disabled={!form.title.trim() || generating} aria-busy={generating} aria-label={generating ? 'Generating task description' : 'Generate task description'} title="Generate with AI">
+                      {generating ? <LoaderCircle className="ai-button__spinner" aria-hidden="true" /> : <Sparkles aria-hidden="true" />}
+                      {generating ? 'Generating…' : 'Generate with AI'}
+                    </button>
+                  </div>
+                </div>
+                {aiNote && <p className="task-form__helper" role="status" aria-live="polite"><Info aria-hidden="true" />{aiNote}</p>}
+              </div>
               <div className="task-form__actions">
                 <button className="button button-primary" type="submit" disabled={saving}>{saving ? 'Saving...' : 'Add task'}</button>
                 <button className="button button-secondary" type="button" onClick={handleLogout}>Sign out</button>

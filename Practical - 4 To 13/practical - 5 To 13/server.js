@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Task from "./models/Task.js";
 import User from "./models/User.js";
+import aiRoutes from "./routes/aiRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 
 const app = express();
@@ -27,7 +28,7 @@ app.use(express.json());
 
 app.get("/", (_request, response) => response.status(200).json({
   message: "Task API is running.",
-  endpoints: ["/health", "/register", "/login", "/tasks"],
+  endpoints: ["/health", "/register", "/login", "/tasks", "/api/ai/generate-description"],
 }));
 
 app.get("/health", (_request, response) => response.status(200).json({ message: "Task API is running." }));
@@ -87,6 +88,7 @@ app.post("/login", async (request, response, next) => {
 });
 
 app.use("/tasks", taskRoutes);
+app.use("/api/ai", aiRoutes);
 app.use((_request, response) => response.status(404).json({ message: "Route not found." }));
 
 app.use((error, _request, response, _next) => {

@@ -1525,6 +1525,84 @@ h2 em {
   opacity: .55;
 }
 
+/* Practical 13: AI description generation */
+.description-row {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.description-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-2);
+}
+
+.description-box textarea {
+  background: transparent;
+  border: 0;
+  padding: var(--space-2);
+  resize: vertical;
+}
+
+.description-meta {
+  align-items: center;
+  display: flex;
+  gap: var(--space-3);
+  justify-content: space-between;
+}
+
+.description-count {
+  color: var(--text-muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+}
+
+.ai-button {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  gap: 6px;
+  letter-spacing: .04em;
+  padding: 7px 11px;
+  white-space: nowrap;
+}
+
+.ai-button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.ai-button__spinner {
+  animation: ai-spin .8s linear infinite;
+}
+
+@keyframes ai-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.task-form__helper {
+  align-items: center;
+  color: var(--text-muted);
+  display: flex;
+  font-size: .8rem;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.task-form__helper svg {
+  flex-shrink: 0;
+  height: 14px;
+  width: 14px;
+}
+
 @media (max-width: 640px) {
   .content-section.task-manager-page {
     padding: var(--space-7) 0;
