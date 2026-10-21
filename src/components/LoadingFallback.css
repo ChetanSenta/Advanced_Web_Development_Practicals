@@ -1,0 +1,33 @@
+.loading-fallback {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  min-height: 55vh;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.loading-fallback__spinner {
+  animation: loading-spin .8s linear infinite;
+  border: 3px solid var(--border);
+  border-radius: 50%;
+  border-top-color: var(--accent);
+  height: 36px;
+  width: 36px;
+}
+
+.loading-fallback p {
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
