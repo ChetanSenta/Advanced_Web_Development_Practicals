@@ -13,9 +13,17 @@ async function request(path, options = {}) {
   try {
     const response = await fetch(`${BASE_URL}${path}`, { ...requestOptions, headers })
     const contentType = response.headers.get('content-type') || ''
-    const data = contentType.includes('application/json')
-      ? await response.json()
-      : { message: await response.text() }
+    const rawBody = await response.text()
+    let data
+    if (contentType.includes('application/json')) {
+      data = JSON.parse(rawBody)
+    } else if (contentType.includes('text/html') || /^\s*<[/!]?(!doctype html|html)\b/i.test(rawBody)) {
+      data = {
+        message: `The server responded with an HTML page instead of JSON. Check that the AI-enabled backend is running at ${BASE_URL}.`,
+      }
+    } else {
+      data = { message: rawBody }
+    }
     if (!response.ok) {
       const validationMessage = data.details?.map((detail) => detail.message).join(' ')
       const error = new Error(validationMessage || data.message || data.error || 'Request failed.')
