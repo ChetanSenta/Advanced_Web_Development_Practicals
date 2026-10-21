@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "practical4": "node practical-4/server.js",
-    "start": "node practical-5/server.js",
-    "demo:events": "node practical-5/demo_events.mjs",
+    "start": "node \"practical - 5 To 13/server.js\"",
+    "demo:events": "node \"practical - 5 To 13/demo_events.mjs\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {

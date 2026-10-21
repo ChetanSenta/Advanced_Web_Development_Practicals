@@ -18,7 +18,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: practical-5/Dockerfile
+      dockerfile: practical - 5 To 13/Dockerfile
     restart: unless-stopped
     ports:
       - "5000:5000"
@@ -36,7 +36,7 @@ services:
 
   frontend:
     build:
-      context: ../Practical - 1 To 3
+      context: ..
       dockerfile: Dockerfile
       args:
         VITE_API_URL: ${VITE_API_URL:-http://localhost:5000}
