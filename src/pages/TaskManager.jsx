@@ -93,10 +93,9 @@ export default function TaskManager() {
       const description = String(result.description || '').trim().slice(0, 300)
       if (!description) throw new Error('The AI returned an empty description. Please write one yourself.')
       setForm((currentForm) => ({ ...currentForm, description }))
-    } catch (aiError) {
+    } catch {
       setForm((currentForm) => ({ ...currentForm, description: buildDescription(title) }))
       setAiNote('AI is unavailable, so a local suggestion was added. You can edit it before saving.')
-      setError(aiError instanceof Error ? aiError.message : 'Unable to generate a task description.')
     } finally {
       setGenerating(false)
     }
